@@ -1,0 +1,124 @@
+/* Styles for sliders */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 10px;
+    background: #ddd; /* Default background color */
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.15s ease-in-out;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+input[type="range"]:hover {
+    opacity: 1;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #6e065e; /* Green thumb color */
+    cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #4CAF50; /* Green thumb color */
+    cursor: pointer;
+}
+
+.slider-container {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 0 10px rgba(128, 0, 128, 0.6) inset; /* Purple glow */
+    transition: box-shadow 0.3s ease-in-out; /* Add transition for smooth effect */
+}
+
+.slider-container:hover {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2), 0 0 20px rgba(128, 0, 128, 0.8) inset; /* Adjust glow intensity on hover */
+}
+.slider-container label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.slider-value {
+    display: inline-block;
+    margin-left: 10px;
+    font-weight: bold;
+    color: #555;
+}
+.heading {
+    text-align: center;
+    font-weight: bold;
+    color:;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.circle-button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.circle-button.selected {
+    background-color: #931174;
+    color: white;
+    border-color: #931174;
+}
+
+.circle-button:hover {
+    background-color: #f0f0f0;
+}
+body {
+    /*background-color:rgb(241, 175, 215);*/
+    background-image: url('17.png');
+}
+#responseContainer {
+    display: none; /* Initially hide the response container */
+    background-color: rgba(255, 255, 255, 0.8); /* Adds a semi-transparent background to the response container */
+    padding: 20px; /* Adds padding to the container */
+    border-radius: 10px; /* Rounds the corners of the container */
+    margin: 20px; /* Adds margin around the container */
+}
+input[type=submit] {
+    background-color: #530445; /* Green background */
+    color: white; /* White text color */
+    padding: 15px 20px; /* Padding inside the button */
+    border: none; /* No border */
+    cursor: pointer; /* Cursor style on hover */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
+}
+
+input[type=submit]:hover {
+    background-color: #d92dba; /* Darker green when hovering */
+}

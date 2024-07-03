@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stress Level Prediction Form</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="app.js"></script>
+	<link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <div class="heading">
+        <h1>Anxiometer</h1>
+    </div>
+    
+    <div class="form-container">
+    <form action="http://127.0.0.1:5000/predict_stress_level" method="post" onsubmit="event.preventDefault(); onClickedEstimateStressLevel();">
+        <div class="slider-container">
+            <label for="self_esteem">How would you rate your overall self-esteem?</label><br>
+            <input type="range" id="self_esteem" name="self_esteem" min="0" max="30" step="1" oninput="updateSliderValue('self_esteem')">
+            <span class="slider-value" id="self_esteem_value">15</span>
+            <input type="hidden" id="self_esteem_hidden" name="self_esteem_hidden" value="15"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="mental_health_history">Do you have a family history of mental health issues?</label><br>
+            <input type="range" id="mental_health_history" name="mental_health_history" min="0" max="1" step="1" oninput="updateSliderValue('mental_health_history')">
+            <span class="slider-value" id="mental_health_history_value">1</span>
+            <input type="hidden" id="mental_health_history_hidden" name="mental_health_history_hidden" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="depression">How often do you feel sad or hopeless?</label><br>
+            <input type="range" id="depression" name="depression" min="0" max="30" step="1" oninput="updateSliderValue('depression')">
+            <span class="slider-value" id="depression_value">15</span>
+            <input type="hidden" id="depression_hidden" name="depression_hidden" value="15"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="headache">How frequently do you experience headaches or migraines?</label><br>
+            <div class="button-container" id="headache_buttons">
+                <div class="circle-button" onclick="selectValue('headache', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('headache', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('headache', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('headache', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('headache', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('headache', 5)">5</div>
+            </div>
+            <input type="hidden" id="headache" name="headache" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="blood_pressure">How would you rate your blood pressure reading?</label><br>
+            <div class="button-container" id="blood_pressure_buttons">
+                <div class="circle-button" onclick="selectValue('blood_pressure', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('blood_pressure', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('blood_pressure', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('blood_pressure', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('blood_pressure', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('blood_pressure', 5)">5</div>
+            </div>
+            <input type="hidden" id="blood_pressure" name="blood_pressure" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="sleep_quality">How would you rate the quality of your sleep?</label><br>
+            <div class="button-container" id="sleep_quality_buttons">
+                <div class="circle-button" onclick="selectValue('sleep_quality', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('sleep_quality', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('sleep_quality', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('sleep_quality', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('sleep_quality', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('sleep_quality', 5)">5</div>
+            </div>
+            <input type="hidden" id="sleep_quality" name="sleep_quality" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="breathing_problem">How often do you experience difficulty in breathing or shortness of breath? </label><br>
+            <div class="button-container" id="breathing_problem_buttons">
+                <div class="circle-button" onclick="selectValue('breathing_problem', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('breathing_problem', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('breathing_problem', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('breathing_problem', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('breathing_problem', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('breathing_problem', 5)">5</div>
+            </div>
+            <input type="hidden" id="breathing_problem" name="breathing_problem" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="noise_level">How do you perceive the noise level in your living environment?</label><br>
+            <div class="button-container" id="noise_level_buttons">
+                <div class="circle-button" onclick="selectValue('noise_level', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('noise_level', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('noise_level', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('noise_level', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('noise_level', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('noise_level', 5)">5</div>
+            </div>
+            <input type="hidden" id="noise_level" name="noise_level" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="living_conditions">How satisfied are you with your current living conditions?</label><br>
+            <div class="button-container" id="living_conditions_buttons">
+                <div class="circle-button" onclick="selectValue('living_conditions', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('living_conditions', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('living_conditions', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('living_conditions', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('living_conditions', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('living_conditions', 5)">5</div>
+            </div>
+            <input type="hidden" id="living_conditions" name="living_conditions" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="safety">How safe do you in your neighborhood or living environment?</label><br>
+            <div class="button-container" id="safety_buttons">
+                <div class="circle-button" onclick="selectValue('safety', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('safety', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('safety', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('safety', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('safety', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('safety', 5)">5</div>
+            </div>
+            <input type="hidden" id="safety" name="safety" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="basic_needs">How well do you feel your basic needs are met?</label><br>
+            <div class="button-container" id="basic_needs_buttons">
+                <div class="circle-button" onclick="selectValue('basic_needs', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('basic_needs', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('basic_needs', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('basic_needs', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('basic_needs', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('basic_needs', 5)">5</div>
+            </div>
+            <input type="hidden" id="basic_needs" name="basic_needs" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="academic_performance">How would you rate your academic performance?</label><br>
+            <div class="button-container" id="academic_performance_buttons">
+                <div class="circle-button" onclick="selectValue('academic_performance', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('academic_performance', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('academic_performance', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('academic_performance', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('academic_performance', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('academic_performance', 5)">5</div>
+            </div>
+            <input type="hidden" id="academic_performance" name="academic_performance" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="study_load">How would you describe your current study workload?</label><br>
+            <div class="button-container" id="study_load_buttons">
+                <div class="circle-button" onclick="selectValue('study_load', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('study_load', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('study_load', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('study_load', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('study_load', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('study_load', 5)">5</div>
+            </div>
+            <input type="hidden" id="study_load" name="study_load" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="teacher_student_relationship">How would you rate your relationship with your teachers or instructors?</label><br>
+            <div class="button-container" id="teacher_student_relationship_buttons">
+                <div class="circle-button" onclick="selectValue('teacher_student_relationship', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('teacher_student_relationship', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('teacher_student_relationship', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('teacher_student_relationship', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('teacher_student_relationship', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('teacher_student_relationship', 5)">5</div>
+            </div>
+            <input type="hidden" id="teacher_student_relationship" name="teacher_student_relationship" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="future_career_concerns">How concerned are you about your future career prospects?</label><br>
+            <div class="button-container" id="future_career_concerns_buttons">
+                <div class="circle-button" onclick="selectValue('future_career_concerns', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('future_career_concerns', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('future_career_concerns', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('future_career_concerns', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('future_career_concerns', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('future_career_concerns', 5)">5</div>
+            </div>
+            <input type="hidden" id="future_career_concerns" name="future_career_concerns" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="social_support">How strong is your support network of friends and family? </label><br>
+            <div class="button-container" id="social_support_buttons">
+                <div class="circle-button" onclick="selectValue('social_support', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('social_support', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('social_support', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('social_support', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('social_support', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('social_support', 5)">5</div>
+            </div>
+            <input type="hidden" id="social_support" name="social_support" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="peer_pressure">How difficult do you find it to resist peer pressure?</label><br>
+            <div class="button-container" id="peer_pressure_buttons">
+                <div class="circle-button" onclick="selectValue('peer_pressure', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('peer_pressure', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('peer_pressure', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('peer_pressure', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('peer_pressure', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('peer_pressure', 5)">5</div>
+            </div>
+            <input type="hidden" id="peer_pressure" name="peer_pressure" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="extracurricular_activities">How fulfilling do you find your extracurricular activities?</label><br>
+            <div class="button-container" id="extracurricular_activities_buttons">
+                <div class="circle-button" onclick="selectValue('extracurricular_activities', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('extracurricular_activities', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('extracurricular_activities', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('extracurricular_activities', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('extracurricular_activities', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('extracurricular_activities', 5)">5</div>
+            </div>
+            <input type="hidden" id="extracurricular_activities" name="extracurricular_activities" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="bullying">How severely has bullying affected you? </label><br>
+            <div class="button-container" id="bullying_buttons">
+                <div class="circle-button" onclick="selectValue('bullying', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('bullying', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('bullying', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('bullying', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('bullying', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('bullying', 5)">5</div>
+            </div>
+            <input type="hidden" id="bullying" name="bullying" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <div class="slider-container">
+            <label for="stress_level">How would you rate your overall stress level?</label><br>
+            <div class="button-container" id="stress_level_buttons">
+                <div class="circle-button" onclick="selectValue('stress_level', 0)">0</div>
+                <div class="circle-button" onclick="selectValue('stress_level', 1)">1</div>
+                <div class="circle-button" onclick="selectValue('stress_level', 2)">2</div>
+                <div class="circle-button" onclick="selectValue('stress_level', 3)">3</div>
+                <div class="circle-button" onclick="selectValue('stress_level', 4)">4</div>
+                <div class="circle-button" onclick="selectValue('stress_level', 5)">5</div>
+            </div>
+            <input type="hidden" id="stress_level" name="stress_level" value="0"> <!-- Hidden input to store selected value -->
+        </div>
+
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+
+   <!-- Container to display the HTML response -->
+   <div id="responseContainer"></div>
+
+    <script>
+        // Function to update slider value display dynamically
+        function updateSliderValue(sliderId) {
+            // Get the current value of the slider
+            var slider = document.getElementById(sliderId);
+            var sliderValue = document.getElementById(sliderId + '_value');
+            sliderValue.textContent = slider.value;
+            
+            // Update hidden input value
+            var hiddenInput = document.getElementById(sliderId + '_hidden');
+            hiddenInput.value = slider.value;
+            
+            // Log selected value to console (optional)
+            console.log(sliderId + ' selected value: ' + slider.value);
+        }
+
+        // Function to select value from button clicks and update hidden input
+        function selectValue(inputId, value) {
+            var buttonContainer = document.getElementById(inputId + '_buttons');
+            var buttons = buttonContainer.querySelectorAll('.circle-button');
+
+            // Remove 'selected' class from all buttons in the same container
+            buttons.forEach(function(button) {
+                button.classList.remove('selected');
+            });
+
+            // Add 'selected' class to the clicked button
+            var selectedButton = buttonContainer.querySelector('.circle-button:nth-child(' + (value + 1) + ')');
+            selectedButton.classList.add('selected');
+
+            // Update hidden input value
+            var hiddenInput = document.getElementById(inputId);
+            hiddenInput.value = value;
+
+            console.log(inputId + ' selected value: ' + value);
+        }
+
+        function onClickedEstimateStressLevel() {
+    console.log("Submit button clicked");
+
+    // Get values from hidden inputs
+    var self_esteem = document.getElementById("self_esteem_hidden").value;
+    var mental_health_history = document.getElementById("mental_health_history_hidden").value;
+    var depression = document.getElementById("depression_hidden").value;
+    var headache = document.getElementById("headache").value;
+    var blood_pressure = document.getElementById("blood_pressure").value;
+    var sleep_quality = document.getElementById("sleep_quality").value;
+    var breathing_problem = document.getElementById("breathing_problem").value;
+    var noise_level = document.getElementById("noise_level").value;
+    var living_conditions = document.getElementById("living_conditions").value;
+    var safety = document.getElementById("safety").value;
+    var basic_needs = document.getElementById("basic_needs").value;
+    var academic_performance = document.getElementById("academic_performance").value;
+    var study_load = document.getElementById("study_load").value;
+    var teacher_student_relationship = document.getElementById("teacher_student_relationship").value;
+    var future_career_concerns = document.getElementById("future_career_concerns").value;
+    var social_support = document.getElementById("social_support").value;
+    var peer_pressure = document.getElementById("peer_pressure").value;
+    var extracurricular_activities = document.getElementById("extracurricular_activities").value;
+    var bullying = document.getElementById("bullying").value;
+    var stress_level = document.getElementById("stress_level").value;
+
+    var url = "http://127.0.0.1:5000/predict_stress_level";
+
+    $.post(url, {
+        self_esteem: parseInt(self_esteem),
+        mental_health_history: parseInt(mental_health_history),
+        depression: parseInt(depression),
+        headache: parseInt(headache),
+        blood_pressure: parseInt(blood_pressure),
+        sleep_quality: parseInt(sleep_quality),
+        breathing_problem: parseInt(breathing_problem),
+        noise_level: parseInt(noise_level),
+        living_conditions: parseInt(living_conditions),
+        safety: parseInt(safety),
+        basic_needs: parseInt(basic_needs),
+        academic_performance: parseInt(academic_performance),
+        study_load: parseInt(study_load),
+        teacher_student_relationship: parseInt(teacher_student_relationship),
+        future_career_concerns: parseInt(future_career_concerns),
+        social_support: parseInt(social_support),
+        peer_pressure: parseInt(peer_pressure),
+        extracurricular_activities: parseInt(extracurricular_activities),
+        bullying: parseInt(bullying),
+        stress_level: parseInt(stress_level)
+    },  function(data, status) {
+        console.log(data.anxiety_level);
+        var responseContainer = document.getElementById("responseContainer");
+        console.log(responseContainer);
+        if (data.anxiety_level>=0 && data.anxiety_level<=10) {
+            responseContainer.innerHTML = "<h2>Predicted Stress Level: " + "Low" + "</h2>";
+        }
+        else if (data.anxiety_level>10 && data.anxiety_level<=20){
+            responseContainer.innerHTML = "<h2>Predicted Stress Level: " + "Moderate" + "</h2>";
+        }
+        else if(data.anxiety_level>20){
+            responseContainer.innerHTML = "<h2>Predicted Stress Level: " + "High" + "</h2>";
+        }
+        responseContainer.style.display = "block";
+        console.log(status);
+    });
+}
+
+    </script>
+
+</body>
+</html>
